@@ -3,11 +3,15 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
 
+const eventRoutes = require("./routes/event");
+
 const app = express();
 
 app.use(cors());
 
 app.use(express.json());
+
+app.use("/events", eventRoutes);
 
 app.use((error, req, res, next) => {
   console.log(error);
