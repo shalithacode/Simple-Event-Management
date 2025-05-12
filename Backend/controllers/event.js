@@ -1,4 +1,5 @@
 const Event = require("../models/event");
+const { validationResult } = require("express-validator");
 
 exports.getEvents = async (req, res, next) => {
   try {
@@ -20,6 +21,33 @@ exports.getEventById = async (req, res, next) => {
     }
     res.status(200).json({ event: event });
   } catch (error) {
+    if (!err.statusCode) err.statusCode = 500;
+    next(err);
+  }
+};
+exports.createEvent = async (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const error = new Error("Validation failed.");
+    error.statusCode = 422;
+    error.errors = errors.array();
+    return next(error);
+  }
+  const eventData = req.body.event;
+
+  const event = {
+    title: eventData.title,
+    description: eventData.description,
+    date: eventData.date,
+    image: eventData.image,
+  };
+
+  const newEvent = new Event(event);
+
+  try {
+    const savedEvent = await newEvent.save();
+    res.status(201).json({ message: "Event saved.", event: savedEvent });
+  } catch (err) {
     if (!err.statusCode) err.statusCode = 500;
     next(err);
   }
