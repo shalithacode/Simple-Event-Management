@@ -11,7 +11,11 @@ function EventsList({ events }) {
               <img src={event.image} alt={event.title} />
               <div className={classes.content}>
                 <h2>{event.title}</h2>
-                <time>{event.date}</time>
+                <p>
+                  {new Intl.DateTimeFormat("en-GB", { day: "2-digit", month: "2-digit", year: "numeric" }).format(
+                    new Date(event.date)
+                  )}
+                </p>
               </div>
             </Link>
           </li>

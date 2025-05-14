@@ -31,6 +31,9 @@
 .content {
   padding: 1rem;
 }
+.content p {
+  color: var(--color-primary-600);
+}
 .item h2 {
   margin: 0 0 1rem 0;
 }
