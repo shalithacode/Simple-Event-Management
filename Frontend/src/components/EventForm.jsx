@@ -1,11 +1,15 @@
-import { useNavigate, Form } from "react-router-dom";
+import { useNavigate, Form, useNavigation } from "react-router-dom";
 
 import classes from "./EventForm.module.css";
 
 function EventForm({ method, event }) {
   const navigate = useNavigate();
+  const navigation = useNavigation();
+
+  const submitting = navigation.state === "submitting";
+
   function cancelHandler() {
-    navigate("..");
+    navigate("/event");
   }
 
   return (
@@ -27,10 +31,12 @@ function EventForm({ method, event }) {
         <textarea id="description" name="description" rows="5" required />
       </p>
       <div className={classes.actions}>
-        <button type="button" onClick={cancelHandler}>
+        <button type="button" onClick={cancelHandler} disabled={submitting}>
           Cancel
         </button>
-        <button type="submit">Save</button>
+        <button type="submit" disabled={submitting}>
+          {submitting ? "Saving..." : "Save"}
+        </button>
       </div>
     </Form>
   );
