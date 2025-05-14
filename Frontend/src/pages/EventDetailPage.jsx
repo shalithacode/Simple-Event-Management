@@ -1,5 +1,6 @@
+/* eslint-disable react-refresh/only-export-components */
 import React from "react";
-import { useLoaderData } from "react-router-dom";
+import { redirect, useLoaderData } from "react-router-dom";
 import EventItem from "../components/EventItem";
 function EventDetailPage() {
   const data = useLoaderData();
@@ -8,7 +9,6 @@ function EventDetailPage() {
 
 export default EventDetailPage;
 
-// eslint-disable-next-line react-refresh/only-export-components
 export async function loader({ params }) {
   const id = params.eventId;
   const response = await fetch("http://localhost:8080/events/" + id);
@@ -17,4 +17,14 @@ export async function loader({ params }) {
   }
 
   return response;
+}
+
+export async function deleteAction({ request, params }) {
+  const id = params.eventId;
+  const response = await fetch("http://localhost:8080/events/" + id, { method: request.method });
+  if (!response.ok) {
+    throw new Response(JSON.stringify({ message: "Could not delete event." }, { status: response.status }));
+  }
+
+  return redirect("/events");
 }

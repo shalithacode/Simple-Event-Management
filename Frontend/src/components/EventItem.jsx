@@ -1,8 +1,12 @@
-import classes from './EventItem.module.css';
+import { useSubmit } from "react-router";
+import classes from "./EventItem.module.css";
 
 function EventItem({ event }) {
+  const submit = useSubmit();
   function startDeleteHandler() {
-    // ...
+    const porceed = window.confirm("Are you sure?");
+
+    if (porceed) submit(null, { method: "DELETE" });
   }
 
   return (
