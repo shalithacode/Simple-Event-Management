@@ -52,3 +52,59 @@ exports.createEvent = async (req, res, next) => {
     next(err);
   }
 };
+exports.editEvent = async (req, res, next) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    const error = new Error("Validation failed.");
+    error.statusCode = 422;
+    error.errors = errors.array();
+    return next(error);
+  }
+  const eventId = req.params.id;
+
+  const eventUpdates = req.body.event;
+
+  try {
+    const event = await Event.findById(eventId);
+
+    if (!event) {
+      const error = new Error("Event not found.");
+      error.statusCode = 404;
+      return next(error);
+    }
+
+    if (eventUpdates.title !== undefined) event.title = eventUpdates.title;
+    if (eventUpdates.description !== undefined) event.description = eventUpdates.description;
+    if (eventUpdates.date !== undefined) event.date = eventUpdates.date;
+    if (eventUpdates.image !== undefined) event.image = eventUpdates.image;
+
+    const updatedEvent = await event.save();
+
+    res.status(200).json({ message: "Event updated.", event: updatedEvent });
+  } catch (err) {
+    if (!err.statusCode) err.statusCode = 500;
+    next(err);
+  }
+};
+
+exports.deleteEvent = async (req, res, next) => {
+  const eventId = req.params.id;
+
+  try {
+    const event = await Event.findById(eventId);
+
+    if (!event) {
+      const error = new Error("Event not found.");
+      error.statusCode = 404;
+      return next(error);
+    }
+
+    await Event.findByIdAndDelete(eventId);
+
+    res.status(200).json({ message: "Event deleted." });
+  } catch (err) {
+    if (!err.statusCode) err.statusCode = 500;
+    next(err);
+  }
+};
