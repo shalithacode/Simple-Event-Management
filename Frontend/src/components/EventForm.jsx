@@ -9,7 +9,7 @@ function EventForm({ method, event }) {
   }
 
   return (
-    <Form className={classes.form}>
+    <Form method={method} className={classes.form}>
       <p>
         <label htmlFor="title">Title</label>
         <input id="title" type="text" name="title" required />
@@ -30,7 +30,7 @@ function EventForm({ method, event }) {
         <button type="button" onClick={cancelHandler}>
           Cancel
         </button>
-        <button>Save</button>
+        <button type="submit">Save</button>
       </div>
     </Form>
   );
