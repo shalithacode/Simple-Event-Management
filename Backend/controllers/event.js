@@ -5,7 +5,7 @@ exports.getEvents = async (req, res, next) => {
   try {
     const events = await Event.find();
     res.json({ events });
-  } catch (error) {
+  } catch (err) {
     if (!err.statusCode) err.statusCode = 500;
     next(err);
   }
@@ -20,7 +20,7 @@ exports.getEventById = async (req, res, next) => {
       throw error;
     }
     res.status(200).json({ event: event });
-  } catch (error) {
+  } catch (err) {
     if (!err.statusCode) err.statusCode = 500;
     next(err);
   }

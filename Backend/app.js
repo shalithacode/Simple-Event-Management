@@ -15,9 +15,9 @@ app.use("/events", eventRoutes);
 
 app.use((error, req, res, next) => {
   console.log(error);
-  const status = error.statusCode | 500;
+  const status = error.statusCode || 500;
   const message = error.message;
-  const data = error.data;
+  const data = error.errors;
   return res.status(status).json({ message, data });
 });
 
