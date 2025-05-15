@@ -1,9 +1,9 @@
 /* eslint-disable react-refresh/only-export-components */
 import React from "react";
-import { redirect, useLoaderData } from "react-router-dom";
+import { redirect, useRouteLoaderData } from "react-router-dom";
 import EventItem from "../components/EventItem";
 function EventDetailPage() {
-  const data = useLoaderData();
+  const data = useRouteLoaderData("event-details");
   return <EventItem event={data.event} />;
 }
 

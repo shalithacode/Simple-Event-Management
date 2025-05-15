@@ -1,4 +1,4 @@
-import { useSubmit } from "react-router";
+import { useSubmit, Link } from "react-router";
 import classes from "./EventItem.module.css";
 
 function EventItem({ event }) {
@@ -16,7 +16,7 @@ function EventItem({ event }) {
       <time>{event.date}</time>
       <p>{event.description}</p>
       <menu className={classes.actions}>
-        <a href="edit">Edit</a>
+        <Link to="edit">Edit</Link>
         <button onClick={startDeleteHandler}>Delete</button>
       </menu>
     </article>
