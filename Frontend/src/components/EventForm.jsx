@@ -1,10 +1,11 @@
-import { useNavigate, Form, useNavigation, redirect } from "react-router-dom";
+import { useNavigate, Form, useNavigation, redirect, useActionData } from "react-router-dom";
 
 import classes from "./EventForm.module.css";
 
 function EventForm({ method, event }) {
   const navigate = useNavigate();
   const navigation = useNavigation();
+  const actionData = useActionData();
 
   const submitting = navigation.state === "submitting";
   console.log(event);
@@ -14,6 +15,7 @@ function EventForm({ method, event }) {
 
   return (
     <Form method={method} className={classes.form}>
+      {actionData && actionData.data.length > 0 && actionData.data.map((err) => <li key={err.path}>{err.msg}</li>)}
       <p>
         <label htmlFor="title">Title</label>
         <input id="title" type="text" name="title" defaultValue={event?.title} required />
@@ -69,9 +71,10 @@ export async function action({ request, params }) {
     body: JSON.stringify({ event }),
     headers: { "Content-Type": "application/json" },
   });
-
+  if (response.status === 422) return response;
   if (!response.ok) {
     throw new Response(JSON.stringify({ message: "An Error Occured!" }, { status: response.status }));
   }
+
   return redirect("/events");
 }

@@ -2,7 +2,10 @@
   max-width: 40rem;
   margin: 2rem auto;
 }
-
+.form li {
+  list-style: none;
+  color: var(--color-primary-600);
+}
 .form label,
 .form input,
 .form textarea {
@@ -32,7 +35,7 @@
   border: none;
 }
 
-.actions button[type='button'] {
+.actions button[type="button"] {
   background-color: transparent;
   color: var(--color-gray-300);
 }
@@ -41,6 +44,6 @@
   background-color: var(--color-primary-300);
 }
 
-.actions button[type='button']:hover {
+.actions button[type="button"]:hover {
   background-color: var(--color-gray-800);
 }
