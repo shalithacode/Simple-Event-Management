@@ -1,3 +1,6 @@
 .content {
   text-align: center;
 }
+.highlight_text {
+  color: var(--color-primary-600);
+}
